@@ -10,9 +10,9 @@ type Drawing struct {
 	Art    string // The ASCII art as a string
 	width  int    // width should not be negative
 	height int    // same for height
-	ori    bool   // false is right, true is left
 }
 
+// width then height
 func getMiddle(drawing Drawing) (int, int) {
 	return (drawing.width / 2), (drawing.height / 2)
 }
@@ -31,6 +31,7 @@ func fileToString(path string) (Drawing, error) {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
+		line = strings.TrimRight(line, " ")
 		builder.WriteString(line + "\n")
 		height++
 		if len(line) > maxWidth {
@@ -46,7 +47,6 @@ func fileToString(path string) (Drawing, error) {
 		Art:    builder.String(),
 		width:  maxWidth,
 		height: height,
-		ori:    true,
 	}
 
 	return drawing, nil
